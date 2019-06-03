@@ -18,7 +18,7 @@ RSpec.describe Oystercard do
     it 'returns true if balance exceeded' do
       expect(subject.exceed_limit?(91)).to eq true
     end
-    
+
   end
 
   describe '#top_up' do
@@ -31,6 +31,15 @@ RSpec.describe Oystercard do
     it 'takes an argument and increment the balance' do
       expect(subject.top_up(3)).to eq(3)
     end
+  end
+
+  describe '#deduct' do
+
+    it 'takes an argument and deducts it from the balance' do
+      oystercard = Oystercard.new
+      oystercard.top_up(20)
+      expect(oystercard.deduct(5)).to eq(15)
+    end 
   end
 
 end
