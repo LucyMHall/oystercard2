@@ -11,7 +11,7 @@ RSpec.describe Oystercard do
       expect(subject.balance).to eq(0)
     end
 
-    it {is_expected.not_to be_in_journey} 
+    it {is_expected.not_to be_in_journey}
 
   end
 
@@ -35,6 +35,11 @@ RSpec.describe Oystercard do
     end
   end
 
-
+  describe '#touch_in' do
+    it 'set in_journey to true' do
+      subject.touch_in
+      expect(subject).to be_in_journey
+    end
+  end
 
 end
