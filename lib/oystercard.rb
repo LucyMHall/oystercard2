@@ -6,12 +6,8 @@ class Oystercard
     @balance = 0
   end
 
-  def exceed_limit?(number)
-    @balance + number > BALANCE_LIMIT
-  end
-
   def top_up(number)
-    raise "Top up declined. Limit balance would be exceed £#{BALANCE_LIMIT}" if exceed_limit?(number)
+    raise "Top up declined. Balance would exceed £#{BALANCE_LIMIT}" if exceed_limit?(number)
 
     @balance += number
   end
@@ -19,5 +15,11 @@ class Oystercard
   def deduct(number)
     @balance -= number
   end
-  
+
+  private
+
+  def exceed_limit?(number)
+    @balance + number > BALANCE_LIMIT
+  end
+
 end
