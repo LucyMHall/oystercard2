@@ -37,13 +37,18 @@ RSpec.describe Oystercard do
 
   describe '#touch_in' do
     it 'set in_journey to true' do
+      subject.top_up(@amount)
       subject.touch_in
       expect(subject).to be_in_journey
+    end
+    it 'prevents touching in if current balance is less than minimum fare' do
+      expect { subject.touch_in }.to raise_error("Minimum balance required")
     end
   end
 
   describe '#touch_out' do
     it 'set in_journey to false' do
+      subject.top_up(@amount)
       subject.touch_in
       subject.touch_out
       expect(subject).not_to be_in_journey
