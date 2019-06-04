@@ -4,6 +4,7 @@ RSpec.describe Oystercard do
   before(:each) do
     @amount = 5
     @station = double("station")
+    allow(subject).to receive(:not_enough_funds?).and_return(false)
   end
 
   describe '#initialize' do
@@ -29,17 +30,12 @@ RSpec.describe Oystercard do
   end
 
   describe '#touch_in' do
-    it 'set in_journey to true' do
-      subject.top_up(@amount)
-      subject.touch_in(@station)
-      expect(subject).to be_in_journey
-    end
     it "prevents touching in if current balance is less than #{Oystercard::MINIMUM_FARE}" do
+      card = Oystercard.new
       message = "Minimum balance of £#{Oystercard::MINIMUM_FARE} required"
-      expect { subject.touch_in(@station) }.to raise_error(message)
+      expect { card.touch_in(@station) }.to raise_error(message)
     end
     it "updates entry_station" do
-      subject.top_up(@amount)
       subject.touch_in(@station)
       expect(subject.entry_station).to eq(@station)
     end
@@ -47,7 +43,6 @@ RSpec.describe Oystercard do
 
   describe '#touch_out' do
     it 'set in_journey to false' do
-      subject.top_up(@amount)
       subject.touch_in(@station)
       subject.touch_out
       expect(subject).not_to be_in_journey
@@ -58,7 +53,6 @@ RSpec.describe Oystercard do
     end
 
     it 'clears entry_station' do
-      subject.top_up(@amount)
       subject.touch_in(@station)
       subject.touch_out
       expect(subject.entry_station).to be_nil
