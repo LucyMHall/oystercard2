@@ -27,14 +27,6 @@ RSpec.describe Oystercard do
     end
   end
 
-  describe '#deduct' do
-
-    it 'takes an argument and deducts it from the balance' do
-      subject.top_up(@amount)
-      expect { subject.deduct(@amount) }.to change { subject.balance }.by(-@amount)
-    end
-  end
-
   describe '#touch_in' do
     it 'set in_journey to true' do
       subject.top_up(@amount)
@@ -54,5 +46,10 @@ RSpec.describe Oystercard do
       subject.touch_out
       expect(subject).not_to be_in_journey
     end
+
+    it 'deducts minimum fare' do
+      expect{subject.touch_out}.to change{subject.balance}.by (-Oystercard::MINIMUM_FARE)
+    end
+
   end
 end
