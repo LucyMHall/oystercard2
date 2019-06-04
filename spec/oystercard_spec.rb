@@ -11,6 +11,8 @@ RSpec.describe Oystercard do
       expect(subject.balance).to eq(0)
     end
 
+    it {is_expected.not_to be_in_journey} 
+
   end
 
   describe '#top_up' do
