@@ -44,17 +44,22 @@ RSpec.describe Oystercard do
   describe '#touch_out' do
     it 'set in_journey to false' do
       subject.touch_in(@station)
-      subject.touch_out
+      subject.touch_out(@station)
       expect(subject).not_to be_in_journey
     end
 
+    it 'updates exit_station' do
+      subject.touch_out(@station)
+      expect(subject.exit_station).to eq(@station)
+    end
+
     it 'deducts minimum fare' do
-      expect{subject.touch_out}.to change{subject.balance}.by(-Oystercard::MINIMUM_FARE)
+      expect{subject.touch_out(@station)}.to change{subject.balance}.by(-Oystercard::MINIMUM_FARE)
     end
 
     it 'clears entry_station' do
       subject.touch_in(@station)
-      subject.touch_out
+      subject.touch_out(@station)
       expect(subject.entry_station).to be_nil
     end
   end
