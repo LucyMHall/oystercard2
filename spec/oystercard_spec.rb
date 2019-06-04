@@ -39,7 +39,9 @@ RSpec.describe Oystercard do
       oystercard = Oystercard.new
       oystercard.top_up(20)
       expect(oystercard.deduct(5)).to eq(15)
-    end 
+    end
   end
+
+
 
 end
