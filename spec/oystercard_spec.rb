@@ -41,8 +41,9 @@ RSpec.describe Oystercard do
       subject.touch_in
       expect(subject).to be_in_journey
     end
-    it 'prevents touching in if current balance is less than minimum fare' do
-      expect { subject.touch_in }.to raise_error("Minimum balance required")
+    it "prevents touching in if current balance is less than #{Oystercard::MINIMUM_FARE}" do
+      message = "Minimum balance of £#{Oystercard::MINIMUM_FARE} required"
+      expect { subject.touch_in }.to raise_error(message)
     end
   end
 
@@ -54,8 +55,4 @@ RSpec.describe Oystercard do
       expect(subject).not_to be_in_journey
     end
   end
-
-
-
-
 end
